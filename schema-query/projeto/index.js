@@ -13,11 +13,19 @@ const typeDefs = gql`
         blabla: String
     }
 
+    type Produto {
+        nome: String!
+        preco: Float!
+        desconto: Float
+        precoComDesconto: Float
+    }
+
     # Pontos de entrada da sua API!
     type Query {
         ola: String!
         horaAtual: Date!
         usuarioLogado: Usuario
+        produtoEmDestaque: Produto
     }
 `
 
@@ -33,6 +41,17 @@ const resolvers = {
         }        
     },
 
+    Produto: {
+        precoComDesconto(produto) {
+            if(produto.desconto) {
+                return produto.preco - (produto.preco * produto.desconto)/100 
+            } else {
+                return produto.preco
+            }
+            
+        }
+    },
+
     //Objeto Query
     Query: {
         ola(){
@@ -44,8 +63,7 @@ const resolvers = {
             // return `${new Date}`
             return new Date
         },
-        usuarioLogado(Objeto){
-            console.log(Objeto)
+        usuarioLogado(){
             return {
                 id: 1,
                 nome: 'Gislene e Lorena',
@@ -54,6 +72,13 @@ const resolvers = {
                 salario_real: 9876.54,
                 vip: true
 
+            }
+        },
+        produtoEmDestaque(){
+            return {
+                nome: 'Raspberry Pi',
+                preco: 100.00,
+                // desconto: 50.00                
             }
         }
 
