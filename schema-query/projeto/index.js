@@ -1,14 +1,25 @@
 const { ApolloServer, gql} = require('apollo-server')
 
 const typeDefs = gql`
-    # Pontos
+    # Pontos de entrada da sua API!
     type Query {
-
+        ola: String
+        horaAtual: String
     }
 `
 
 const resolvers = {
-
+    //Objeto Query
+    Query: {
+        ola(){
+            return 'Boa tarde!'
+        },
+        horaAtual(){
+            // const data = new Date();
+            // return data.toString();
+            return `${new Date}`
+        }
+    }
 }
 
 const server = new ApolloServer({
