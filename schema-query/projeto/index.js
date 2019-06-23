@@ -6,19 +6,23 @@ const usuarios =
         id: 1,
         nome: 'João Silva',
         email: 'jsilva@email.com',
-        idade: 29
+        idade: 29,
+        perfil_id: 1
+        
     },
     {
         id: 2,
         nome: 'Rafael Junior',
         email: 'rjunior@email.com',
-        idade: 31
+        idade: 31,
+        perfil_id: 2
     },
     {
         id: 3,
         nome: 'Daniela Smith',
         email: 'dsmith@email.com',
-        idade: 24
+        idade: 24,
+        perfil_id: 1
     }
 ]
 
@@ -45,7 +49,7 @@ scalar Date
         idade: Int
         salario: Float
         vip: Boolean
-        blabla: String
+        perfil: Perfil
     }
 
 
@@ -76,10 +80,11 @@ const resolvers = {
         salario(usuario) {
             return usuario.salario_real
         },
-        
-        blabla() {
-            return 'Opa'
-        }        
+        perfil(usuario){
+            const sels = perfis
+            .filter(p => p.id === usuario.perfil_id)
+            return sels ? sels[0] : null
+        }
     },
 
     Produto: {
