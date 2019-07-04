@@ -1,4 +1,5 @@
 type Mutation {
+    #Mutations de Usuário
     novoUsuario(
         # nome: String,
         # email: String,
@@ -25,4 +26,19 @@ type Mutation {
         filtro: UsuarioFiltro!
         dados: UsuarioInput!
     ): Usuario
+
+    #Mutations de Perfil
+
+    novoPerfil(
+        dados: PerfilInput!
+    ): Perfil!
+
+    excluirPerfil(
+        filtro: PerfilFiltro!
+    ): Perfil
+
+    alterarPerfil(
+        filtro: PerfilFiltro!
+        dados: PerfilInput
+    ): Perfil
 }
