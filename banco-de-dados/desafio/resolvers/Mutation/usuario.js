@@ -24,7 +24,7 @@ module.exports = {
                 .insert(dados)
             
             // Inserindo Perfis do usuário
-            for(perfil_id of idsPerfis) {
+            for(let perfil_id of idsPerfis) {
                 await db('usuarios_perfis')
                     .insert({ perfil_id, usuario_id: id })
             }
@@ -52,7 +52,39 @@ module.exports = {
         }    },
     async alterarUsuario(_, { filtro, dados }) {
         try {
+            const usuario = await obterUsuario(_, { filtro })
+            if(usuario) {
+                const { id } = usuario
+                if(dados.perfis) {
+                    await db('usuarios_perfis')
+                        .where({ usuario_id: id })
+                        .delete()
 
+                    // Opcao 01 
+                    // for(perfilFiltro of dados.perfis) {
+                    //     const perfil = await obterPerfil(_, {
+                    //         filtro: { ...perfilFiltro }
+                    //     })
+                    // }
+                    //Opcao 02 
+                    for(let filtro of dados.perfis) {
+                        const perfil = await obterPerfil(_, {
+                            filtro
+                        })
+                        perfil && await db('usuarios_perfis')
+                            .insert({
+                                perfil_id: perfil.id,
+                                usuario_id: id
+                            })
+                    }
+                }
+
+                delete dados.perfis
+                await db('usuarios')
+                    .where({ id })
+                    .update(dados)
+            }
+            return !usuario ? null : { ...usuario, ...dados }
         } catch(e){
             throw new Error(e.sqlMessage)
         }
