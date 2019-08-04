@@ -4,9 +4,10 @@ type Query {
     horaAtual: Date!
     usuarioLogado: Usuario
     produtoEmDestaque: Produto
+    produtoPrecoVenda: Produto
     numerosMegaSena: [Int!]!
     usuarios: [Usuario]
     usuario(id: Int): Usuario
     perfis: [Perfil]
-    perfil(id: Int): Perfil
+    perfil(id: [Int]): Perfil
 }

@@ -3,4 +3,5 @@ type Produto {
     preco: Float!
     desconto: Float
     precoComDesconto: Float
+    precoVenda: Float
 }

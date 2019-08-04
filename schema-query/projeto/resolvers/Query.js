@@ -2,13 +2,13 @@ const { usuarios, perfis } = require('../data/db')
 
 module.exports = {
     ola(){
-        return 'Boa tarde!'
+        return 'Bom dia!'
     },
     horaAtual(){
         // const data = new Date();
         // return data.toString();
-        // return `${new Date}`
-        return new Date
+        return `${new Date}`
+        // return new Date
     },
     usuarioLogado(){
         return {

@@ -6,5 +6,9 @@ module.exports = {
             return produto.preco
         }
         
+    },
+    precoVenda(produto) {
+        return produto.preco + (produto.preco * produto.precoVenda) / 100
     }
+
 }
