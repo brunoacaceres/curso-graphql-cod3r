@@ -80,14 +80,44 @@ export default {
     },
     methods: {
         novoUsuario() {
-            // implementar
+            this.$api.mutate({
+                mutation: gql`mutation (
+                        $nome: String
+                        $email: String
+                        $senha: String
+                        $perfis: [PerfilFiltro]
+                    ) {
+                        novoUsuario (
+                            dados: {
+                                nome: $nome
+                                email: $email
+                                senha: $senha
+                                perfis: $perfis
+                            }
+                        ) {
+                            id nome email perfis { rotulo }
+                        }
+                    }`,
+                variables: {
+                    nome: this.usuario.nome,
+                    email: this.usuario.email,
+                    senha: this.usuario.senha,
+                    perfis: this.perfisSelecionados
+                },
+            }).then(resultado => {
+                this.dados = resultado.data.novoUsuario
+                this.usuario = {}
+                this.erros = null
+            }).catch(e => {
+                this.erros = e
+            })
         },
         obterPerfis() {
             this.$api.query({
-                query: gql`{ perfis { id rotulo }}`
+                query: gql`{ perfis { id rotulo } }`
             }).then(resultado => {
                 this.perfis = resultado.data.perfis
-                // this.erros = null
+                this.erros = null
             }).catch(e => {
                 this.erros = e
             })
